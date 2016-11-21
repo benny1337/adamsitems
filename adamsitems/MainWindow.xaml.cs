@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,29 @@ namespace adamsitems
     /// </summary>
     public partial class MainWindow : Window
     {
+        private TaskRepository _repo;
+
         public MainWindow()
         {
             InitializeComponent();
+            _repo = new TaskRepository();
+            this.DataContext = _repo.Tasks;
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            var task = new Task()
+            {
+                Name = "ett gott exempel",
+                Prio = TaskType.viktigsomfan
+            };
+            _repo.AddTask(task);            
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            var task = this.dataGrid.SelectedItem as Task;
+            _repo.RemoveTask(task);
         }
     }
 }
